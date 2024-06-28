@@ -1,2 +1,6 @@
-/config.py
-/.venv
+/.env
+/.env.example
+.mypy_cache/
+.vscode/
+venv/
+__pycache__/
