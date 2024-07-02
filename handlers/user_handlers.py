@@ -1,10 +1,12 @@
 from aiogram import F, Router, types
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message, CallbackQuery, PreCheckoutQuery, ContentType
+from DB.checkUser import get_key
 import keyboards.keyboards as kb
 from lexicon.lexicon_ru import LEXICON_RU
 from services.services import get_user_name
 from config import PaysToken, load_pay_token
+
 
 payToken: PaysToken = load_pay_token()
 PAYMENT_TOKEN: str = payToken.token.token
@@ -27,6 +29,35 @@ async def cmd_start(message: Message):
 @router.callback_query(F.data == 'subscribe')
 async def subscribes(callback: CallbackQuery):
     await callback.message.edit_text(LEXICON_RU['subscribe'], reply_markup=await kb.inline_subscribes(), parse_mode='HTML')
+
+@router.callback_query(F.data == 'subscribe_Тестовый доступ на 1 день')
+async def subscribe_1_day(callback: CallbackQuery):
+    await callback.message.edit_text(LEXICON_RU['subscribe_1_day'], reply_markup=await kb.inline_subscribe_1_day(), parse_mode='HTML')    
+
+@router.callback_query(F.data == 'day_Получить ключ')
+async def subscribe_1_day(callback: CallbackQuery):
+    username = callback.from_user.username
+    if username:
+        message, key = get_key(username, 'day_1')
+        if key:
+            await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
+        elif key:
+            await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
+        else:
+            await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day() ,parse_mode='HTML')
+    else:
+        message = "Не удалось определить ваш никнейм в Telegram."
+        await callback.message.edit_text(message, parse_mode='HTML')
+
+
+@router.callback_query(F.data == 'day_Назад')
+async def back_to_subscribe(callback: CallbackQuery):
+    await callback.message.edit_text(LEXICON_RU['subscribe'], reply_markup=await kb.inline_subscribes(), parse_mode='HTML')
+
+@router.callback_query(F.data == 'key_day_1_Готово')
+async def done_day_1(callback: CallbackQuery):
+    await callback.message.edit_text(LEXICON_RU['start'], reply_markup=kb.main, parse_mode='HTML')
+
 
 @router.callback_query(F.data == 'subscribe_1 месяц – 120₽')
 async def subscribe_120(callback: CallbackQuery):
@@ -116,7 +147,6 @@ async def buy_600(callback: CallbackQuery):
 @router.pre_checkout_query(lambda query: True)
 async def pre_checkout_query(pre_checkout_q: PreCheckoutQuery):
     await pre_checkout_q.bot.answer_pre_checkout_query(pre_checkout_q.id, ok=True)
-
 
 @router.message(F.content_type == ContentType.SUCCESSFUL_PAYMENT)
 async def successful_payment(message: Message):

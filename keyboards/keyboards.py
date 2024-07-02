@@ -21,8 +21,23 @@ async def inline_subscribes():
         keyboard.add(InlineKeyboardButton(text=subscribe, callback_data=f'subscribe_{subscribe}'))
     return keyboard.adjust(1).as_markup()
 
+days_1 = ['Получить ключ', 'Назад']
 
-months_one = ['Оплатить 120₽', 'Проверить оплату', 'Назад']
+async def inline_subscribe_1_day():
+    keyboard = InlineKeyboardBuilder()
+    for day_one in days_1:
+        keyboard.add(InlineKeyboardButton(text=day_one, callback_data=f'day_{day_one}'))
+    return keyboard.adjust(1).as_markup()
+
+key_days_1 = ['Готово']
+
+async def inline_get_subscribe_1_day():
+    keyboard = InlineKeyboardBuilder()
+    for key_day_1 in key_days_1:
+        keyboard.add(InlineKeyboardButton(text=key_day_1, callback_data=f'key_day_1_{key_day_1}'))
+    return keyboard.adjust(1).as_markup()
+
+months_one = ['Оплатить 120₽', 'Назад']
 
 async def inline_subscribe_1month():
     keyboard = InlineKeyboardBuilder()
@@ -30,7 +45,7 @@ async def inline_subscribe_1month():
         keyboard.add(InlineKeyboardButton(text=month_one, callback_data=f'month_{month_one}'))
     return keyboard.adjust(1).as_markup()
 
-months_three = ['Оплатить 320₽', 'Проверить оплату', 'Назад']
+months_three = ['Оплатить 320₽', 'Назад']
 
 async def inline_subscribe_3month():
     keyboard = InlineKeyboardBuilder()
@@ -38,7 +53,7 @@ async def inline_subscribe_3month():
         keyboard.add(InlineKeyboardButton(text=subscribe_320r, callback_data=f'month_{subscribe_320r}'))
     return keyboard.adjust(1).as_markup()
 
-months_six = ['Оплатить 600₽', 'Проверить оплату', 'Назад']
+months_six = ['Оплатить 600₽', 'Назад']
 
 async def inline_subscribe_6month():
     keyboard = InlineKeyboardBuilder()
