@@ -45,6 +45,7 @@ async def subscribe_1_day(callback: CallbackQuery):
             # Отправляем файл .ovpn пользователю
             await callback.message.answer_document(types.InputFile(file_path), caption="Вот ваш сформированный файл.")
             os.remove(file_path)
+            
         else:
             await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
     else:
