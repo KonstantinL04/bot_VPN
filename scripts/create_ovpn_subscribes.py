@@ -1,5 +1,3 @@
-import paramiko
-import os
 import subprocess
 
 def execute_remote_script(username):
