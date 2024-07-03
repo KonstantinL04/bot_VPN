@@ -6,6 +6,8 @@ import keyboards.keyboards as kb
 from lexicon.lexicon_ru import LEXICON_RU
 from services.services import get_user_name
 from config import PaysToken, load_pay_token
+import os
+from scripts.create_ovpn_subscribes import create_ovpn_1_day
 
 
 payToken: PaysToken = load_pay_token()
@@ -44,7 +46,10 @@ async def subscribe_1_day(callback: CallbackQuery):
         elif key:
             await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
+            ovpn_file_path = create_ovpn_1_day(username)
+            await callback.message.answer_document(types.InputFile(ovpn_file_path))
             await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day() ,parse_mode='HTML')
+            os.remove(ovpn_file_path)
     else:
         message = "Не удалось определить ваш никнейм в Telegram."
         await callback.message.edit_text(message, parse_mode='HTML')
