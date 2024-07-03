@@ -40,19 +40,17 @@ async def subscribe_1_day(callback: CallbackQuery):
 async def subscribe_1_day(callback: CallbackQuery):
     username = callback.from_user.username
     if username:
-        message, key = get_key(username, 1)
-        if key:
-            await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
-        elif key:
-            await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
+        message, file_path = get_key(username, 1)
+        if file_path:
+            # Отправляем файл .ovpn пользователю
+            await callback.message.answer_document(types.InputFile(file_path), caption="Вот ваш сформированный файл.")
+            os.remove(file_path)
         else:
-            ovpn_file_path = execute_remote_script(username, day=1)
-            await callback.message.answer_document(types.InputFile(ovpn_file_path))
-            # await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day() ,parse_mode='HTML')
-            os.remove(ovpn_file_path)
+            await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
     else:
         message = "Не удалось определить ваш никнейм в Telegram."
         await callback.message.edit_text(message, parse_mode='HTML')
+
 
 
 @router.callback_query(F.data == 'day_Назад')
