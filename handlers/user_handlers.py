@@ -40,7 +40,7 @@ async def subscribe_1_day(callback: CallbackQuery):
 async def subscribe_1_day(callback: CallbackQuery):
     username = callback.from_user.username
     if username:
-        message, key = get_key(username, 'day_1')
+        message, key = get_key(username, 1)
         if key:
             await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         elif key:

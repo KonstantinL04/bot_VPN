@@ -1,8 +1,8 @@
 #!/bin/bash
 USERNAME=$1
-
+DAYS=$1
 cd /etc/openvpn/server/easy-rsa/
-sudo -s ./easyrsa --batch --days=1 build-client-full $USERNAME nopass
+sudo -s ./easyrsa --batch --days=$DAYS build-client-full $USERNAME nopass
 
 {
     sudo -s cat /etc/openvpn/server/client-common.txt
@@ -18,5 +18,5 @@ sudo -s ./easyrsa --batch --days=1 build-client-full $USERNAME nopass
     echo "<tls-crypt>"
     sudo -s sed -ne '/BEGIN OpenVPN Static key/,$ p' /etc/openvpn/server/tc.key
     echo "</tls-crypt>"
-} > /tmp/$USERNAME.ovpn
+} > /home/konstantin/$USERNAME.ovpn
 

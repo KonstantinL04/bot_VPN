@@ -1,24 +1,30 @@
 import subprocess
+import os
+from dotenv import load_dotenv
+import paramiko
 
-def execute_remote_script(username):
+dotenv_path = '/.env'
+load_dotenv(dotenv_path)
 
-    # Путь к локальному скрипту на сервере
-    script_path = '/home/konstantin/bot_VPN/scripts/create_ovpn_1_day.sh'
+SSH_HOST = os.getenv('SSH_HOST')
+SSH_USER = os.getenv('SSH_USER')
+SSH_PRIVATE_KEY = os.getenv('SSH_PRIVATE_KEY')
 
-    result = subprocess.run([script_path, username], capture_output=True, text=True)
+def execute_remote_script(username, day):
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(hostname=SSH_HOST, username=SSH_USER, key_filename=SSH_PRIVATE_KEY)
 
-    if result.returncode == 0:
-        # Если скрипт выполнен успешно, вернуть путь к сгенерированному файлу .ovpn
-        return f'/tmp/{username}.ovpn', "Файл .ovpn успешно сгенерирован и загружен."
-    else:
-        # В случае ошибки, вернуть сообщение об ошибке
-        error_message = result.stderr.strip()
-        return None, f"Ошибка при выполнении скрипта на сервере: {error_message}"
+    remote_script_path = '/home/konstantin/bot_VPN/scripts/create_ovpn.sh'
+    build_command = f'sudo -S {remote_script_path} {username} {day}'
 
-# Пример использования
-username = "kos"
-ovpn_file_path, message = execute_remote_script(username)
-if ovpn_file_path:
-    print(f"Сгенерирован файл .ovpn: {ovpn_file_path}")
-else:
-    print(f"Ошибка: {message}")
+    stdin, stdout, stderr = client.exec_command(build_command)
+    stdout.channel.recv_exit_status()
+
+    client.close()
+
+    return stdout.read().decode('utf-8')
+
+# Пример использования функции
+result = execute_remote_script('kos', day=1)
+print(result)
