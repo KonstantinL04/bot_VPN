@@ -19,11 +19,3 @@ def execute_remote_script(username, days):
         print(f"An error occurred: {str(e)}")
         return None
 
-# Пример использования функции
-user = "kos3"
-day = 1
-ovpn_file_path = execute_remote_script(user, day)
-if ovpn_file_path:
-    print(f"Путь к сгенерированному файлу .ovpn: {ovpn_file_path}")
-else:
-    print(f"Ошибка")
