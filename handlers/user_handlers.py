@@ -48,7 +48,7 @@ async def subscribe_1_day(callback: CallbackQuery):
         else:
             ovpn_file_path = execute_remote_script(username, day=1)
             await callback.message.answer_document(types.InputFile(ovpn_file_path))
-            await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day() ,parse_mode='HTML')
+            # await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day() ,parse_mode='HTML')
             os.remove(ovpn_file_path)
     else:
         message = "Не удалось определить ваш никнейм в Telegram."

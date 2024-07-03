@@ -15,8 +15,8 @@ def execute_remote_script(username, days):
         return None, f"Ошибка при выполнении скрипта на сервере: {error_message}"
 
 # Пример использования функции
-ovpn_file_path, message = execute_remote_script("kos3", 3)
-if ovpn_file_path:
-    print(f"Путь к сгенерированному файлу .ovpn: {ovpn_file_path}")
-else:
-    print(f"Ошибка: {message}")
+# ovpn_file_path, message = execute_remote_script("kos3", 3)
+# if ovpn_file_path:
+#     print(f"Путь к сгенерированному файлу .ovpn: {ovpn_file_path}")
+# else:
+#     print(f"Ошибка: {message}")
