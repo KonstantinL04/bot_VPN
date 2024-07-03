@@ -3,7 +3,7 @@ import subprocess
 def execute_remote_script(username):
 
     # Путь к локальному скрипту на сервере
-    script_path = './scripts/create_ovpn_1_day.sh'
+    script_path = '/create_ovpn_1_day.sh'
 
     result = subprocess.run([script_path, username], capture_output=True, text=True)
 
