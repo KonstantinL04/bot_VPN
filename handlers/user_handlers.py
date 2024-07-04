@@ -155,7 +155,7 @@ async def pre_checkout_query(pre_checkout_q: PreCheckoutQuery):
     await pre_checkout_q.bot.answer_pre_checkout_query(pre_checkout_q.id, ok=True)
 
 # Обработка успешного платежа для подписок
-@router.message(F.successful_payment())
+@router.message(F.successful_payment)
 async def successful_payment_handler(message: Message):
     print("SUCCESSFUL PAYMENT:")
     payment_info = message.successful_payment
