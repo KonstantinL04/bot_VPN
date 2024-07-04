@@ -7,9 +7,10 @@ db_path = 'DB/user.db'
 def is_key_active(date_received, days_valid=1):
     date_format = '%Y-%m-%d %H:%M:%S'
     received_date = datetime.strptime(date_received, date_format)
-    if datetime.now() - received_date < timedelta(days=days_valid):
-        return True
-    return False
+    expiry_date = received_date + timedelta(days=days_valid)
+    if datetime.now() < expiry_date:
+        return True, expiry_date
+    return False, expiry_date
 
 def get_key(username, key_type):
     conn = sqlite3.connect(db_path)
@@ -19,9 +20,10 @@ def get_key(username, key_type):
     result = cursor.fetchone()
     
     if result:
-        if is_key_active(result[0]):
-            message = "Вы уже получали этот ключ ранее, и он все еще активен."
-            file_path = None
+        is_active, expiry_date = is_key_active(result[0])
+        if is_active:
+            message = f"Вы уже получали этот ключ ранее, и он все еще активен. Он истекает {expiry_date.strftime('%Y-%m-%d %H:%M:%S')}."
+            file_path = f'/home/konstantin/{key_type}{username}.ovpn'        
         else:
             message = "Вы уже получали ключ ранее и его срок истек. Теперь вы можете только купить платную версию."
             file_path = None

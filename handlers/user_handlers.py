@@ -60,6 +60,7 @@ async def done_day_1(callback: CallbackQuery):
 
 @router.callback_query(F.data == 'subscribe_1 месяц – 120₽')
 async def subscribe_120(callback: CallbackQuery):
+
     await callback.message.edit_text(LEXICON_RU['subscribe_120'], reply_markup=await kb.inline_subscribe_1month(), parse_mode='HTML')
 
 @router.callback_query(F.data == 'subscribe_3 месяца – 320₽')
