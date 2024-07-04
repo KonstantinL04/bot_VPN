@@ -9,12 +9,12 @@ def execute_remote_script(username, days):
         # Выполнение локального скрипта
         result = subprocess.run(['bash', script_path, username, str(days)], check=True, capture_output=True, text=True)
         if result.returncode != 0:
-            raise Exception(f"Script failed with return code {result.returncode}")
+            raise Exception(f"Ошибка скрипта с возвращаемым кодом {result.returncode}")
 
         if not os.path.exists(local_file_path):
-            raise FileNotFoundError(f"File {local_file_path} not found after script execution")
+            raise FileNotFoundError(f"Файл {local_file_path}не найден после выполнения скрипта")
 
         return local_file_path
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        print(f"Произошла ошибка {str(e)}")
         return None
