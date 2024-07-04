@@ -155,7 +155,7 @@ async def pre_checkout_query(pre_checkout_q: PreCheckoutQuery):
     await pre_checkout_q.bot.answer_pre_checkout_query(pre_checkout_q.id, ok=True)
 
 # Обработка успешного платежа для подписок
-@router.message(F.successful_payment)
+@router.message(F.successful_payment())
 async def successful_payment_handler(message: Message):
     print("SUCCESSFUL PAYMENT:")
     payment_info = message.successful_payment
@@ -164,35 +164,38 @@ async def successful_payment_handler(message: Message):
     if payment_info.invoice_payload == "test-invoice-payload-120":
         username = message.from_user.username
         if username:
-            message, file_path = get_key(username, 30)
+            message_text, file_path = get_key(username, 30)
             if file_path:
                 await send_ovpn_file(message, file_path)
             else:
-                await message.answer("Не удалось сгенерировать файл.")
+                await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
-            await message.answer("Не удалось определить ваш никнейм в Telegram.")
+            message_text = "Не удалось определить ваш никнейм в Telegram."
+            await message.answer(message_text, parse_mode='HTML')
     
     elif payment_info.invoice_payload == "test-invoice-payload-320":
         username = message.from_user.username
         if username:
-            message, file_path = get_key(username, 120)
+            message_text, file_path = get_key(username, 90)
             if file_path:
                 await send_ovpn_file(message, file_path)
             else:
-                await message.answer("Не удалось сгенерировать файл.")
+                await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
-            await message.answer("Не удалось определить ваш никнейм в Telegram.")
+            message_text = "Не удалось определить ваш никнейм в Telegram."
+            await message.answer(message_text, parse_mode='HTML')
     
     elif payment_info.invoice_payload == "test-invoice-payload-600":
         username = message.from_user.username
         if username:
-            message, file_path = get_key(username, 180)
+            message_text, file_path = get_key(username, 180)
             if file_path:
                 await send_ovpn_file(message, file_path)
             else:
-                await message.answer("Не удалось сгенерировать файл.")
+                await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
-            await message.answer("Не удалось определить ваш никнейм в Telegram.")
+            message_text = "Не удалось определить ваш никнейм в Telegram."
+            await message.answer(message_text, parse_mode='HTML')
 
 # # Обработка успешного платежа
 # @router.message(F.successful_payment)
