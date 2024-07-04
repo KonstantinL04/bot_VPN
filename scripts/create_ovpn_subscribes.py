@@ -3,7 +3,7 @@ import os
 
 def execute_remote_script(username, days):
     script_path = '/home/konstantin/bot_VPN/scripts/create_ovpn.sh'
-    local_file_path = f'/home/konstantin/{username}.ovpn'
+    local_file_path = f'/home/konstantin/{days}+{username}.ovpn'
 
     try:
         # Выполнение локального скрипта
