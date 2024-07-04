@@ -1,13 +1,13 @@
 from aiogram import F, Router, types
-from aiogram.filters import CommandStart, Command
+from aiogram.filters import CommandStart
 from aiogram.types import Message, CallbackQuery, PreCheckoutQuery, ContentType
+from aiogram.types.input_file import InputFile
 from DB.checkUser import get_key
 import keyboards.keyboards as kb
 from lexicon.lexicon_ru import LEXICON_RU
 from services.services import get_user_name
 from config import PaysToken, load_pay_token
 import os
-from scripts.create_ovpn_subscribes import execute_remote_script
 
 
 payToken: PaysToken = load_pay_token()
@@ -43,13 +43,14 @@ async def subscribe_1_day(callback: CallbackQuery):
         message, file_path = get_key(username, 1)
         if file_path:
             # Отправляем файл .ovpn пользователю
-            await callback.message.answer_document(types.InputFile(file_path), caption="Вот ваш сформированный файл.")
+            await callback.message.answer_document(InputFile(file_path), caption="Вот ваш сформированный файл.")  # <-- Изменено
             os.remove(file_path)
         else:
             await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
     else:
         message = "Не удалось определить ваш никнейм в Telegram."
         await callback.message.edit_text(message, parse_mode='HTML')
+
 
 
 
