@@ -36,22 +36,17 @@ async def subscribes(callback: CallbackQuery):
 async def subscribe_1_day(callback: CallbackQuery):
     await callback.message.edit_text(LEXICON_RU['subscribe_1_day'], reply_markup=await kb.inline_subscribe_1_day(), parse_mode='HTML')    
 
-# Функция отправки файла .ovpn
-async def send_ovpn_file(callback: CallbackQuery, file_path: Message):
-    await callback.message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.")
-    os.remove(file_path)
-
-
 @router.callback_query(F.data == 'day_Получить ключ')
 async def subscribe_1_day(callback: CallbackQuery):
     username = callback.from_user.username
     if username:
         message, file_path = get_key(username, 1)
         if file_path:
-            await send_ovpn_file(message, file_path)
+            # Отправляем файл .ovpn пользователю
+            await callback.message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.") 
+            os.remove(file_path)
         else:
-            await message.answer("Не удалось сгенерировать файл.")
-            # await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
+            await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
     else:
         message = "Не удалось определить ваш никнейм в Telegram."
         await callback.message.edit_text(message, parse_mode='HTML')
@@ -154,7 +149,7 @@ async def buy_600(callback: CallbackQuery):
 async def pre_checkout_query(pre_checkout_q: PreCheckoutQuery):
     await pre_checkout_q.bot.answer_pre_checkout_query(pre_checkout_q.id, ok=True)
 
-# Обработка успешного платежа для подписок
+# Обработка успешного платежа
 @router.message(F.successful_payment)
 async def successful_payment_handler(message: Message):
     print("SUCCESSFUL PAYMENT:")
@@ -166,7 +161,8 @@ async def successful_payment_handler(message: Message):
         if username:
             message_text, file_path = get_key(username, 30)
             if file_path:
-                await send_ovpn_file(message, file_path)
+                await message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.") 
+                os.remove(file_path)
             else:
                 await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
@@ -178,7 +174,8 @@ async def successful_payment_handler(message: Message):
         if username:
             message_text, file_path = get_key(username, 90)
             if file_path:
-                await send_ovpn_file(message, file_path)
+                await message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.") 
+                os.remove(file_path)
             else:
                 await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
@@ -190,24 +187,13 @@ async def successful_payment_handler(message: Message):
         if username:
             message_text, file_path = get_key(username, 180)
             if file_path:
-                await send_ovpn_file(message, file_path)
+                await message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.") 
+                os.remove(file_path)
             else:
                 await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
             message_text = "Не удалось определить ваш никнейм в Telegram."
             await message.answer(message_text, parse_mode='HTML')
-
-# # Обработка успешного платежа
-# @router.message(F.successful_payment)
-# async def successful_payment_handler(message: Message):
-#     print("SUCCESSFUL PAYMENT:")
-
-#     total_amount = message.successful_payment.total_amount
-#     currency = message.successful_payment.currency
-
-#     print(f"Сумма: {total_amount // 100} {currency}")
-
-#     await message.answer(f"Платеж на сумму {total_amount // 100} {currency} прошел успешно!!!")
 
 # Меню выбора помощи
 @router.callback_query(F.data == 'help')
