@@ -149,10 +149,10 @@ async def buy_600(callback: CallbackQuery):
 async def pre_checkout_query(pre_checkout_q: PreCheckoutQuery):
     await pre_checkout_q.bot.answer_pre_checkout_query(pre_checkout_q.id, ok=True)
 
-@router.message(F.content_type == ContentType.SUCCESSFUL_PAYMENT)
+@router.message(F.successful_payment)
 async def successful_payment(message: Message):
     print("SUCCESSFUL PAYMENT:")
-    payment_info = message.successful_payment
+    payment_info = message.successful_payment.to_python()
     for k, v in payment_info.items():
         print(f"{k} = {v}")
 
