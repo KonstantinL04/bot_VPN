@@ -41,6 +41,7 @@ async def send_ovpn_file(callback: CallbackQuery, file_path: str):
     await callback.message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.")
     os.remove(file_path)
 
+
 @router.callback_query(F.data == 'day_Получить ключ')
 async def subscribe_1_day(callback: CallbackQuery):
     username = callback.from_user.username
@@ -193,17 +194,17 @@ async def successful_payment_handler(message: Message):
         else:
             await message.answer("Не удалось определить ваш никнейм в Telegram.")
 
-# Обработка успешного платежа
-@router.message(F.successful_payment)
-async def successful_payment_handler(message: Message):
-    print("SUCCESSFUL PAYMENT:")
+# # Обработка успешного платежа
+# @router.message(F.successful_payment)
+# async def successful_payment_handler(message: Message):
+#     print("SUCCESSFUL PAYMENT:")
 
-    total_amount = message.successful_payment.total_amount
-    currency = message.successful_payment.currency
+#     total_amount = message.successful_payment.total_amount
+#     currency = message.successful_payment.currency
 
-    print(f"Сумма: {total_amount // 100} {currency}")
+#     print(f"Сумма: {total_amount // 100} {currency}")
 
-    await message.answer(f"Платеж на сумму {total_amount // 100} {currency} прошел успешно!!!")
+#     await message.answer(f"Платеж на сумму {total_amount // 100} {currency} прошел успешно!!!")
 
 # Меню выбора помощи
 @router.callback_query(F.data == 'help')
