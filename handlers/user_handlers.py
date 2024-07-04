@@ -37,7 +37,7 @@ async def subscribe_1_day(callback: CallbackQuery):
     await callback.message.edit_text(LEXICON_RU['subscribe_1_day'], reply_markup=await kb.inline_subscribe_1_day(), parse_mode='HTML')    
 
 # Функция отправки файла .ovpn
-async def send_ovpn_file(callback: CallbackQuery, file_path: str):
+async def send_ovpn_file(callback: CallbackQuery, file_path: Message):
     await callback.message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.")
     os.remove(file_path)
 
