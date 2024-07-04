@@ -23,7 +23,7 @@ def get_key(username, key_type):
         is_active, expiry_date = is_key_active(result[0])
         if is_active:
             message = f"Вы уже получали этот ключ ранее, и он все еще активен. Он истекает {expiry_date.strftime('%Y-%m-%d %H:%M:%S')}."
-            file_path = f'/home/konstantin/{key_type}{username}.ovpn'        
+            file_path = None   
         else:
             message = "Вы уже получали ключ ранее и его срок истек. Теперь вы можете только купить платную версию."
             file_path = None
