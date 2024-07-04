@@ -149,15 +149,21 @@ async def buy_600(callback: CallbackQuery):
 async def pre_checkout_query(pre_checkout_q: PreCheckoutQuery):
     await pre_checkout_q.bot.answer_pre_checkout_query(pre_checkout_q.id, ok=True)
 
+# Обработка успешного платежа
 @router.message(F.successful_payment)
-async def successful_payment(message: Message):
+async def successful_payment_handler(message: Message):
     print("SUCCESSFUL PAYMENT:")
-    payment_info = message.successful_payment.to_python()
-    for k, v in payment_info.items():
-        print(f"{k} = {v}")
-
-    await message.answer(f"Платеж на сумму {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошел успешно!!!")
-
+    
+    # Извлекаем атрибуты объекта SuccessfulPayment
+    total_amount = message.successful_payment.total_amount
+    currency = message.successful_payment.currency
+    
+    # Выводим информацию о платеже в консоль
+    print(f"Сумма: {total_amount // 100} {currency}")
+    
+    # Отправляем сообщение пользователю
+    await message.answer(f"Платеж на сумму {total_amount // 100} {currency} прошел успешно!!!")
+    
 # Меню выбора помощи
 @router.callback_query(F.data == 'help')
 async def help(callback: CallbackQuery):
