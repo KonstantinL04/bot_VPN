@@ -7,7 +7,6 @@ import keyboards.keyboards as kb
 from lexicon.lexicon_ru import LEXICON_RU
 from services.services import get_user_name
 from config import PaysToken, load_pay_token
-import os
 
 
 payToken: PaysToken = load_pay_token()
@@ -44,7 +43,6 @@ async def subscribe_1_day(callback: CallbackQuery):
         if file_path:
             # Отправляем файл .ovpn пользователю
             await callback.message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.") 
-            os.remove(file_path)
         else:
             await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
     else:
@@ -162,7 +160,6 @@ async def successful_payment_handler(message: Message):
             message_text, file_path = get_key(username, 30)
             if file_path:
                 await message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.") 
-                os.remove(file_path)
             else:
                 await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
@@ -175,7 +172,6 @@ async def successful_payment_handler(message: Message):
             message_text, file_path = get_key(username, 90)
             if file_path:
                 await message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.") 
-                os.remove(file_path)
             else:
                 await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
@@ -188,7 +184,6 @@ async def successful_payment_handler(message: Message):
             message_text, file_path = get_key(username, 180)
             if file_path:
                 await message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.") 
-                os.remove(file_path)
             else:
                 await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
