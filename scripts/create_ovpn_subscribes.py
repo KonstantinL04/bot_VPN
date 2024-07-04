@@ -18,4 +18,3 @@ def execute_remote_script(username, days):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
         return None
-

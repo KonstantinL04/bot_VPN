@@ -1,17 +1,5 @@
 import sqlite3
 from datetime import datetime, timedelta
-
-db_path = 'DB/user.db'
-
-def is_key_active(date_received, days_valid=1):
-    date_format = '%Y-%m-%d %H:%M:%S'
-    received_date = datetime.strptime(date_received, date_format)
-    if datetime.now() - received_date < timedelta(days=days_valid):
-        return True
-    return False
-
-import sqlite3
-from datetime import datetime, timedelta
 from scripts.create_ovpn_subscribes import execute_remote_script
 
 db_path = 'DB/user.db'
@@ -46,4 +34,3 @@ def get_key(username, key_type):
     
     conn.close()
     return message, file_path
-
