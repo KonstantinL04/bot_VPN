@@ -78,6 +78,7 @@ async def check_subscribe_30_days(callback: CallbackQuery):
     else:
         message_text = "Не удалось определить ваш никнейм в Telegram."
         await callback.message.answer(message_text, parse_mode='HTML')
+        
 @router.callback_query(F.data == 'check_Проверить доступ на 90 дней')
 async def check_subscribe_90_days(callback: CallbackQuery):
     username = callback.message.from_user.username

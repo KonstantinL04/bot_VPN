@@ -19,11 +19,11 @@ async def inline_subscribes():
         keyboard.add(InlineKeyboardButton(text=subscribe, callback_data=f'subscribe_{subscribe}'))
     return keyboard.adjust(1).as_markup()
 
-days_1 = ['Получить ключ', 'Назад']
+get_days_1 = ['Получить ключ', 'Назад']
 async def inline_subscribe_1_day():
     keyboard = InlineKeyboardBuilder()
-    for day_one in days_1:
-        keyboard.add(InlineKeyboardButton(text=day_one, callback_data=f'day_{day_one}'))
+    for get_day_one in get_days_1:
+        keyboard.add(InlineKeyboardButton(text=get_day_one, callback_data=f'day_{get_day_one}'))
     return keyboard.adjust(1).as_markup()
 
 
