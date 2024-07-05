@@ -19,14 +19,14 @@ def get_key(username, key_type):
     result = cursor.fetchone()
     
     if result:
+        message = "Ваш тестовый ключ не смог сгенерироваться."
+        file_path = None
+    else: 
         cursor.execute('INSERT OR REPLACE INTO users (username, key_type, date_received) VALUES (?, ?, ?)', 
                        (username, key_type, datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
         conn.commit()
         message = "Ваш тестовый ключ сгенерирован."
         file_path = execute_remote_script(username, key_type)  # Генерация нового файла .ovpn
-    else: 
-        message = "Ваш тестовый ключ не смог сгенерироваться."
-        file_path = None
     conn.close()
     return message, file_path
 
