@@ -24,7 +24,8 @@ def get_key(username, key_type):
         conn.commit()
         message = "Ваш тестовый ключ сгенерирован."
         file_path = execute_remote_script(username, key_type)  # Генерация нового файла .ovpn
-    
+    else: 
+        file_path = None
     conn.close()
     return message, file_path
 

@@ -108,19 +108,19 @@ async def check_subscribe_180_days(callback: CallbackQuery):
 async def back_to_subscribe(callback: CallbackQuery):
     await callback.message.edit_text(LEXICON_RU['subscribe'], reply_markup=await kb.inline_subscribes(), parse_mode='HTML')
 
-# @router.callback_query(F.data == 'day_Получить ключ')
-# async def subscribe_1_day(callback: CallbackQuery):
-#     username = callback.from_user.username
-#     if username:
-#         message, file_path = get_key(username, 1)
-#         if file_path:
-#             # Отправляем файл .ovpn пользователю
-#             await callback.message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.") 
-#         else:
-#             await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
-#     else:
-#         message = "Не удалось определить ваш никнейм в Telegram."
-#         await callback.message.edit_text(message, parse_mode='HTML')
+@router.callback_query(F.data == 'day_Получить ключ')
+async def subscribe_1_day(callback: CallbackQuery):
+    username = callback.from_user.username
+    if username:
+        message, file_path = get_key(username, 1)
+        if file_path:
+            # Отправляем файл .ovpn пользователю
+            await callback.message.answer_document(FSInputFile(file_path), caption="Вот ваш сформированный файл.") 
+        else:
+            await callback.message.edit_text(message, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
+    else:
+        message = "Не удалось определить ваш никнейм в Telegram."
+        await callback.message.edit_text(message, parse_mode='HTML')
     
 @router.callback_query(F.data == 'month_Оплатить 120₽')
 async def buy_120(callback: CallbackQuery):
