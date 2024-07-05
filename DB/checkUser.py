@@ -15,6 +15,22 @@ def is_key_active(date_received, days_valid=1):
 def get_key(username, key_type):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
+    cursor.execute('SELECT date_received FROM users WHERE username = ? AND key_type = ?', (username, key_type))
+    result = cursor.fetchone()
+    
+    if result:
+        cursor.execute('INSERT OR REPLACE INTO users (username, key_type, date_received) VALUES (?, ?, ?)', 
+                       (username, key_type, datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+        conn.commit()
+        message = "Ваш тестовый ключ сгенерирован."
+        file_path = execute_remote_script(username, key_type)  # Генерация нового файла .ovpn
+    
+    conn.close()
+    return message, file_path
+
+def check_key(username, key_type):
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
     
     cursor.execute('SELECT date_received FROM users WHERE username = ? AND key_type = ?', (username, key_type))
     result = cursor.fetchone()
@@ -22,17 +38,14 @@ def get_key(username, key_type):
     if result:
         is_active, expiry_date = is_key_active(result[0])
         if is_active:
-            message = f"Вы уже получали этот ключ ранее, и он все еще активен. Он истекает {expiry_date.strftime('%Y-%m-%d %H:%M:%S')}."
-            file_path = None   
+            message = f"Вы уже получали этот ключ ранее, и он все еще активен. Он истекает {expiry_date.strftime('%Y-%m-%d %H:%M:%S')} МСК."
+            file_path = f'/home/konstantin/{key_type}{username}.ovpn'   
         else:
             message = "Вы уже получали ключ ранее и его срок истек. Теперь вы можете только купить платную версию."
             file_path = None
     else:
-        cursor.execute('INSERT OR REPLACE INTO users (username, key_type, date_received) VALUES (?, ?, ?)', 
-                       (username, key_type, datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
-        conn.commit()
-        message = "Ваш тестовый ключ сгенерирован."
-        file_path = execute_remote_script(username, key_type)  # Генерация нового файла .ovpn
-    
+        message = "Ваш ключ для доступа не найден, Вы можете приобрести новый."
+        file_path = None
+
     conn.close()
     return message, file_path
