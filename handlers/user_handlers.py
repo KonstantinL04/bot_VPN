@@ -55,16 +55,17 @@ async def back_to_main(callback: CallbackQuery):
 
 @router.callback_query(F.data == 'check_Проверить доступ на 1 день')
 async def check_subscribe_1_day(callback: CallbackQuery):
-    username = callback.message.from_user.username
+    username = callback.from_user.username
     if username:
         message_text, file_path = check_key(username, 1)
         if file_path:
             await callback.message.answer_document(FSInputFile(file_path), caption='Вот ваша активная подписка', reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML') 
         else:
-            await callback.message.edit_text(LEXICON_RU['subscribe_1_day'], reply_markup=await kb.inline_subscribe_1_day(), parse_mode='HTML')
+            await callback.message.edit_text(message_text, reply_markup=await kb.inline_subscribe_1_day(), parse_mode='HTML')
     else:
         message_text = "Не удалось определить ваш никнейм в Telegram."
         await callback.message.edit_text(message_text, parse_mode='HTML')    
+  
 
 @router.callback_query(F.data == 'check_Проверить доступ на 30 дней')
 async def check_subscribe_30_days(callback: CallbackQuery):
