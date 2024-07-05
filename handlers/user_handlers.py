@@ -190,7 +190,7 @@ async def back_to_subscribe(callback: CallbackQuery):
 
 @router.callback_query(F.data == 'key_day_1_Готово')
 async def done_day_1(callback: CallbackQuery):
-    await callback.message.edit_text(LEXICON_RU['start'], reply_markup=kb.main, parse_mode='HTML')
+    await callback.message.answer(LEXICON_RU['start'], reply_markup=kb.main, parse_mode='HTML')
 
 @router.callback_query(F.data == 'month_Назад')
 async def back_to_subscribe(callback: CallbackQuery):
@@ -226,7 +226,7 @@ async def successful_payment_handler(message: Message):
         if username:
             message_text, file_path = get_key(username, 90)
             if file_path:
-                await message.answer_document(FSInputFile(file_path), caption="Благодарим за покупку!\n\n Вот ваш сформированный файл: ваш сформированный файл.",reply_markup=await kb.inline_get_subscribe_1_day()) 
+                await message.answer_document(FSInputFile(file_path), caption="Благодарим за покупку!\n\n Вот ваш сформированный файл:",reply_markup=await kb.inline_get_subscribe_1_day()) 
             else:
                 await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
@@ -238,7 +238,7 @@ async def successful_payment_handler(message: Message):
         if username:
             message_text, file_path = get_key(username, 180)
             if file_path:
-                await message.answer_document(FSInputFile(file_path), caption="Вот Благодарим за покупку!\n\n Вот ваш сформированный файл: сформированный файл.",reply_markup=await kb.inline_get_subscribe_1_day()) 
+                await message.answer_document(FSInputFile(file_path), caption="Благодарим за покупку!\n\n Вот ваш сформированный файл:",reply_markup=await kb.inline_get_subscribe_1_day()) 
             else:
                 await message.answer(message_text, reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML')
         else:
