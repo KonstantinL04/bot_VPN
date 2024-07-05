@@ -38,7 +38,7 @@ def check_key(username, key_type):
     result = cursor.fetchone()
     
     if result:
-        is_active, expiry_date = is_key_active(result[0])
+        is_active, expiry_date = is_key_active(result[0], key_type)
         if is_active:
             message = f"Вы уже получали этот ключ ранее, и он все еще активен. Он истекает {expiry_date.strftime('%Y-%m-%d %H:%M:%S')} МСК."
             file_path = f'/home/konstantin/{key_type}{username}.ovpn'   

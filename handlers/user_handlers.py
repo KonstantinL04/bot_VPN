@@ -61,10 +61,10 @@ async def check_subscribe_1_day(callback: CallbackQuery):
         if file_path:
             await callback.message.answer_document(FSInputFile(file_path), caption='Вот ваша активная подписка', reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML') 
         else:
-            await callback.message.answer(LEXICON_RU['subscribe_1_day'], reply_markup=await kb.inline_subscribe_1_day(), parse_mode='HTML')
+            await callback.message.edit_text(LEXICON_RU['subscribe_1_day'], reply_markup=await kb.inline_subscribe_1_day(), parse_mode='HTML')
     else:
         message_text = "Не удалось определить ваш никнейм в Telegram."
-        await callback.message.answer(message_text, parse_mode='HTML')    
+        await callback.message.edit_text(message_text, parse_mode='HTML')    
 
 @router.callback_query(F.data == 'check_Проверить доступ на 30 дней')
 async def check_subscribe_30_days(callback: CallbackQuery):
@@ -74,11 +74,11 @@ async def check_subscribe_30_days(callback: CallbackQuery):
         if file_path:
             await callback.message.answer_document(FSInputFile(file_path), caption='Вот ваша активная подписка', reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML') 
         else:
-            await callback.message.answer(LEXICON_RU['subscribe_30_days'], reply_markup=await kb.inline_pay_subscribe_30_days(), parse_mode='HTML')
+            await callback.message.edit_text(LEXICON_RU['subscribe_30_days'], reply_markup=await kb.inline_pay_subscribe_30_days(), parse_mode='HTML')
     else:
         message_text = "Не удалось определить ваш никнейм в Telegram."
-        await callback.message.answer(message_text, parse_mode='HTML')
-        
+        await callback.message.edit_text(message_text, parse_mode='HTML')
+
 @router.callback_query(F.data == 'check_Проверить доступ на 90 дней')
 async def check_subscribe_90_days(callback: CallbackQuery):
     username = callback.message.from_user.username
@@ -87,10 +87,10 @@ async def check_subscribe_90_days(callback: CallbackQuery):
         if file_path:
             await callback.message.answer_document(FSInputFile(file_path), caption='Вот ваша активная подписка', reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML') 
         else:
-            await callback.message.answer(LEXICON_RU['subscribe_90_days'], reply_markup=await kb.inline_pay_subscribe_90_days(), parse_mode='HTML')
+            await callback.message.edit_text(LEXICON_RU['subscribe_90_days'], reply_markup=await kb.inline_pay_subscribe_90_days(), parse_mode='HTML')
     else:
         message_text = "Не удалось определить ваш никнейм в Telegram."
-        await callback.message.answer(message_text, parse_mode='HTML')
+        await callback.message.edit_text(message_text, parse_mode='HTML')
 
 @router.callback_query(F.data == 'check_Проверить доступ на 180 дней')
 async def check_subscribe_180_days(callback: CallbackQuery):
@@ -100,10 +100,10 @@ async def check_subscribe_180_days(callback: CallbackQuery):
         if file_path:
             await callback.message.answer_document(FSInputFile(file_path), caption='Вот ваша активная подписка', reply_markup=await kb.inline_get_subscribe_1_day(), parse_mode='HTML') 
         else:
-            await callback.message.answer(LEXICON_RU['subscribe_180_days'], reply_markup=await kb.inline_pay_subscribe_180_days(), parse_mode='HTML')
+            await callback.message.edit_text(LEXICON_RU['subscribe_180_days'], reply_markup=await kb.inline_pay_subscribe_180_days(), parse_mode='HTML')
     else:
         message_text = "Не удалось определить ваш никнейм в Telegram."
-        await callback.message.answer(message_text, parse_mode='HTML')
+        await callback.message.edit_text(message_text, parse_mode='HTML')
 
 @router.callback_query(F.data == 'check_Назад')
 async def back_to_subscribe(callback: CallbackQuery):
