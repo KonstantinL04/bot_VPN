@@ -19,5 +19,5 @@ sudo -s ./easyrsa --batch --days=$DAYS build-client-full $DAYS$USERNAME nopass
     echo "<tls-crypt>"
     sudo -s sed -ne '/BEGIN OpenVPN Static key/,$ p' /etc/openvpn/server/tc.key
     echo "</tls-crypt>"
-} > /home/konstantin/$DAYS$USERNAME.ovpn
+} > /root/$DAYS$USERNAME.ovpn
 
